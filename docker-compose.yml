@@ -1,0 +1,44 @@
+name: doom
+
+# Servidor Zandronum (Doom multiplayer). UDP: nao passa pelo Cloudflare Tunnel;
+# acesso externo via relay playit.gg (ver README.md).
+# Uma sala = um servico. Config em Dados/doom/configs, WADs em Dados/doom/wads.
+services:
+  sala1:
+    build: .
+    image: doom-server
+    container_name: game-doom-server
+    labels:
+      category: "jogos"
+    restart: unless-stopped
+    ports:
+      - "36920:36920/udp"   # jogo (via relay playit)
+      - "36921:36921"       # site/tutorial (o site via Cloudflare Tunnel)
+    mem_limit: 256m
+    cpus: 0.5
+    command: >
+      -port 36920
+      -iwad /data/doom2.wad
+      -file /data/udmx.wad
+      +logfile /logs/sala.log
+      +exec /configs/sala1.cfg
+      +map MAP07
+    volumes:
+      - ${DOOM_DADOS}/wads:/data:ro
+      - ${DOOM_DADOS}/configs:/configs:ro
+      - ${DOOM_DADOS}/logs:/logs
+      - ./site:/srv/site:ro
+      - ${DOOM_DADOS}/wads-publicos:/srv/site/wad:ro   # o site/wad (so WADs livres; sem os comerciais)
+
+  # Relay UDP publico (playit.gg): conexao so de saida, sem roteador/Tailscale.
+  # O tunel UDP (-> 127.0.0.1:36920) e configurado no painel do playit.
+  playit:
+    image: ghcr.io/playit-cloud/playit-agent:1.0
+    container_name: game-doom-playit
+    labels:
+      category: "jogos"
+    restart: unless-stopped
+    network_mode: host
+    env_file: .env
+    mem_limit: 128m
+    cpus: 0.25

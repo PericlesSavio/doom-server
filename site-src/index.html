@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doom</title>
+<style>
+:root{--bg:#0a0605;--panel:#17100d;--panel2:#221512;--line:#4a2a1e;--fg:#e8dcc8;--mut:#a89880;--blood:#c1121f;--hot:#ff6a13;--gold:#ffd23f;--hud:#4cff4c;--code:#050303}
+*{box-sizing:border-box;border-radius:0}
+body{margin:0;color:var(--fg);font:16px/1.55 "Segoe UI",system-ui,sans-serif;
+ background:
+  radial-gradient(ellipse at 50% -10%,rgba(193,18,31,.35),transparent 60%),
+  repeating-linear-gradient(0deg,transparent 0 31px,rgba(0,0,0,.35) 31px 32px),
+  repeating-linear-gradient(90deg,transparent 0 63px,rgba(0,0,0,.25) 63px 64px),
+  var(--bg)}
+header{padding:28px 16px 18px;text-align:center;border-bottom:4px solid var(--blood);
+ background:linear-gradient(180deg,rgba(193,18,31,.25),transparent),repeating-linear-gradient(90deg,#1a0d0a 0 40px,#150a08 40px 80px);
+ box-shadow:0 6px 24px rgba(193,18,31,.45)}
+h1{margin:0;font:900 clamp(2.2rem,8vw,4.2rem)/1 Impact,"Arial Black",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--hot);
+ text-shadow:0 0 12px rgba(255,106,19,.7),3px 3px 0 #5a0000,5px 5px 0 #000}
+.sub{color:var(--mut);margin:10px 0 0;letter-spacing:.08em;text-transform:uppercase;font-size:.85rem}
+.hud{display:flex;flex-wrap:wrap;justify-content:center;gap:0;margin-top:16px;border:2px solid var(--line);background:#000}
+.hud div{flex:1 1 140px;padding:8px 12px;border-right:2px solid var(--line);text-align:center}
+.hud div:last-child{border-right:0}
+.hud b{display:block;font:900 1.5rem/1.1 Impact,"Arial Black",sans-serif;color:var(--hud);text-shadow:0 0 8px rgba(76,255,76,.6)}
+.hud small{color:var(--mut);text-transform:uppercase;letter-spacing:.12em;font-size:.7rem}
+main{padding:16px;display:grid;gap:18px;max-width:none}
+section{background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-top:4px solid var(--blood);padding:16px;
+ box-shadow:inset 0 0 0 1px #000,0 4px 0 #000}
+h2{margin:0 0 12px;font:900 1.35rem/1.1 Impact,"Arial Black",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-shadow:2px 2px 0 #000}
+h2::before{content:"▶ ";color:var(--blood)}
+h3{margin:18px 0 6px;font-size:1rem;text-transform:uppercase;letter-spacing:.08em;color:var(--hot)}
+.addr{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+#addr{font-size:1.25rem;color:var(--hud);background:#000;border:2px solid var(--line);padding:6px 12px;text-shadow:0 0 8px rgba(76,255,76,.5)}
+code,pre{font-family:ui-monospace,Consolas,monospace}
+code{color:var(--gold)}
+.box{background:var(--code);color:var(--hud);border:2px solid var(--line);border-left:6px solid var(--blood);padding:12px;overflow-x:auto;margin:8px 0;white-space:pre-wrap;word-break:break-all;font-family:ui-monospace,Consolas,monospace}
+button{background:linear-gradient(180deg,#e0212e,var(--blood) 55%,#7d0a13);color:#fff;border:2px solid #000;border-top-color:#ff6b73;border-left-color:#ff6b73;padding:8px 16px;font:900 .9rem Impact,"Arial Black",sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-shadow:1px 1px 0 #000}
+button:hover{filter:brightness(1.2)}button:active{transform:translate(1px,1px)}
+.cmd{display:flex;gap:8px;align-items:stretch;margin:8px 0}
+.cmd .box{flex:1;margin:0;min-width:0;display:flex;align-items:center}
+.cmd button{flex:none}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tabs button[aria-selected=false]{background:#1a1210;color:var(--mut);border-color:#000;border-top-color:var(--line);border-left-color:var(--line)}
+.os{display:none}.os.on{display:block}
+table{width:100%;border-collapse:collapse}td,th{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+th{background:#2a1510;color:var(--hot);text-transform:uppercase;letter-spacing:.06em;font-size:.8rem}
+tr:nth-child(even) td{background:rgba(0,0,0,.2)}
+a{color:var(--hot)}a:hover{color:var(--gold)}small{color:var(--mut)}
+footer{padding:20px 16px;text-align:center;color:var(--mut);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;border-top:2px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+<h1>Doom</h1>
+<p class="sub">Deathmatch · cada um por si · rip &amp; tear</p>
+<div class="hud">
+<div><b>16</b><small>Jogadores</small></div>
+<div><b>DM</b><small>Modo</small></div>
+<div><b id="h-iwad">…</b><small>IWAD</small></div>
+<div><b id="h-mapa">…</b><small>Mapa</small></div>
+<div><b>UDP</b><small>Protocolo</small></div>
+</div>
+</header>
+<main>
+
+<section id="sala">
+<h2>Sala agora</h2>
+<table id="sala-tab"><tr><td>carregando…</td></tr></table>
+<div id="sala-aviso"></div>
+</section>
+
+<section>
+<h2>Endereço do servidor</h2>
+<div class="addr"><code id="addr" style="font-size:1.2rem">carregando…</code><button onclick="copiar('addr')">Copiar</button></div>
+<p><small>Sala "@@SALA_NOME@@" · sem senha · não precisa abrir portas no roteador.</small></p>
+</section>
+
+<section>
+<h2>Como entrar</h2>
+<p>Escolha seu sistema. O modo automático (cole o comando) baixa o jogo (Zandronum 3.2.1 + Freedoom) na primeira vez e já entra no servidor. Das próximas vezes só abre o jogo.</p>
+<div class="tabs" role="tablist">
+<button id="t-win" aria-selected="true" onclick="aba('win')">Windows</button>
+<button id="t-lin" aria-selected="false" onclick="aba('lin')">Linux</button>
+</div>
+
+<div class="os on" id="os-win">
+<h3>Automático (recomendado)</h3>
+<ol><li>Aperte a tecla <b>Windows</b>, digite <b>PowerShell</b> e abra (não precisa ser administrador).</li>
+<li>Cole e aperte Enter:</li></ol>
+<div class="cmd"><div class="box" id="c-win"></div><button onclick="copiar(\'c-win\')">Copiar</button></div>
+<p><small>O jogo fica em <code>C:\Users\&lt;seu usuário&gt;\Doom</code>. Script: <a href="/win.ps1" download="win.ps1">⬇ baixar win.ps1</a> (leia antes de rodar, se quiser).</small></p>
+<p><small><b>Quer outra pasta?</b> Baixe o <code>win.ps1</code>, abra no Bloco de Notas, edite a linha <code>$Dir = …</code> e rode no PowerShell: <code>powershell -ExecutionPolicy Bypass -File "$HOME\Downloads\win.ps1"</code></small></p>
+<h3>Manual</h3>
+<ol>
+<li>Baixe o Zandronum 3.2.1: <a href="https://zandronum.com/downloads/zandronum3.2.1-win64-installer.exe">instalador</a> ou <a href="https://zandronum.com/downloads/zandronum3.2.1-win64-base.zip">zip</a> (se for o zip, extraia numa pasta). Página oficial: <a href="https://zandronum.com/download">zandronum.com/download</a>.</li>
+<li>Baixe o <a href="https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip">Freedoom 0.13.0</a>, extraia e copie o <code>freedoom2.wad</code> para a <b>pasta do Zandronum</b> (onde está o <code>zandronum.exe</code>).</li>
+<li>Abra o Zandronum (escolha <code>freedoom2.wad</code> se perguntar), aperte <code>'</code> ou <code>~</code> e digite: <code>connect <span class="a">…</span></code></li>
+</ol>
+</div>
+
+<div class="os" id="os-lin">
+<h3>Antes: bibliotecas do seu Linux</h3>
+<p>O Zandronum para Linux (o do script) precisa de <code>libSDL-1.2</code> e <code>libjpeg.so.8</code>. Instale conforme sua distro:</p>
+<table>
+<tr><th>Distro</th><th>Comando</th></tr>
+<tr><td>Ubuntu / Linux Mint</td><td><code>sudo apt install libsdl1.2debian libjpeg-turbo8</code></td></tr>
+<tr><td>Debian 13 (e derivados sem libjpeg.so.8)</td><td>Não existe a <code>libjpeg.so.8</code>. Use o repositório apt oficial do Zandronum (abaixo) em vez do script.</td></tr>
+<tr><td>Arch / Manjaro</td><td>pacote <code>zandronum</code> (AUR)</td></tr>
+</table>
+<h3>Debian / Ubuntu / Mint: pelo repositório oficial (sem libjpeg)</h3>
+<div class="cmd"><div class="box" id="c-apt">sudo wget -O /usr/share/keyrings/drdteam.gpg https://debian.drdteam.org/drdteam.gpg
+echo "deb [signed-by=/usr/share/keyrings/drdteam.gpg] https://debian.drdteam.org/ stable multiverse" | sudo tee /etc/apt/sources.list.d/drdteam.list
+sudo apt update &amp;&amp; sudo apt install zandronum
+mkdir -p ~/.zandronum &amp;&amp; wget -qO /tmp/fd.zip https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip &amp;&amp; unzip -oj -q /tmp/fd.zip '*/freedoom2.wad' -d ~/.zandronum
+zandronum -iwad ~/.zandronum/freedoom2.wad +connect <span class="a">…</span></div><button onclick="copiar('c-apt')">Copiar</button></div>
+<p><small>Repositório não oficial da DRD Team, listado em <a href="https://zandronum.com/download">zandronum.com/download</a>. Nesse modo você não usa o script abaixo.</small></p>
+<h3>Automático (recomendado)</h3>
+<p>Abra o Terminal, cole e aperte Enter:</p>
+<div class="cmd"><div class="box" id="c-lin"></div><button onclick="copiar(\'c-lin\')">Copiar</button></div>
+<p><small>O jogo fica em <code>~/Jogos/doom</code>. Script: <a href="/linux.sh" download="linux.sh">⬇ baixar linux.sh</a>.</small></p>
+<p><small><b>Quer outra pasta?</b> Baixe o <code>linux.sh</code>, edite a linha <code>DIR=…</code> e rode: <code>bash ~/Downloads/linux.sh</code> (ou sem editar: <code>DOOM_DIR=/outra/pasta bash linux.sh</code>)</small></p>
+<h3>Manual</h3>
+<ol>
+<li>Baixe o <a href="https://zandronum.com/downloads/zandronum3.2.1-linux-x86_64.tar.bz2">Zandronum 3.2.1 para Linux</a> e extraia numa pasta: <code>mkdir -p ~/Jogos/doom &amp;&amp; tar -xjf zandronum3.2.1-linux-x86_64.tar.bz2 -C ~/Jogos/doom</code></li>
+<li>Baixe o <a href="https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip">Freedoom 0.13.0</a>, extraia e copie o <code>freedoom2.wad</code> para a mesma pasta.</li>
+<li>Rode: <code>cd ~/Jogos/doom &amp;&amp; LD_LIBRARY_PATH=. ./zandronum -iwad freedoom2.wad +connect <span class="a">…</span></code></li>
+</ol>
+</div>
+<p><small>Quer jogar os mapas de deathmatch (UDMX, AeonDM...)? <a href="/wad/">Baixe os WADs aqui</a>.</small></p>
+<p><small>Use a versão <b>3.2.1</b> do Zandronum (as "testing 3.3" não entram neste servidor). Opcional: <a href="https://doomseeker.drdteam.org">Doomseeker</a> (lista de servidores).</small></p>
+</section>
+
+<section>
+<h2>Jogando</h2>
+<table>
+<tr><th>Ação</th><th>Como</th></tr>
+<tr><td>Abrir o console</td><td>tecla <code>'</code> ou <code>~</code></td></tr>
+<tr><td>Entrar na mão</td><td>no console: <code>connect <span class="a">…</span></code></td></tr>
+<tr><td>Sair do servidor</td><td><code>disconnect</code></td></tr>
+<tr><td>Conversar</td><td>tecla <code>T</code></td></tr>
+<tr><td>Controles</td><td>Options → Customize Controls</td></tr>
+</table>
+</section>
+
+<section>
+<h2>Deu problema?</h2>
+<table>
+<tr><th>Sintoma</th><th>O que fazer</th></tr>
+<tr><td>Fica "Connecting…" e dá erro</td><td>Tente o IP: <code>connect @@PUBLIC_IP_ADDR@@</code>. Se não for, o servidor pode estar desligado.</td></tr>
+<tr><td>"Version mismatch"</td><td>Precisa ser a <b>3.2.1</b>. Apague a pasta do jogo e cole o comando de novo.</td></tr>
+<tr><td>"Couldn't find IWAD"</td><td>Falta o <code>freedoom2.wad</code> na pasta do jogo. Apague a pasta e cole o comando de novo.</td></tr>
+<tr><td>Erro de biblioteca (Linux)</td><td>Veja o aviso "Antes" na aba Linux.</td></tr>
+<tr><td>Travando / pulando</td><td>Use cabo de rede ou chegue mais perto do Wi-Fi.</td></tr>
+<tr><td>Não acho o console</td><td>Teclado ABNT: tente <code>'</code> e <code>~</code>, ou Customize Controls → Console.</td></tr>
+</table>
+</section>
+
+</main>
+<footer>Zandronum 3.2.1 · Freedoom 0.13.0 · Frendner</footer>
+<script>
+var H=location.origin;
+function copiar(id){var t=document.getElementById(id).innerText;try{navigator.clipboard.writeText(t)}catch(e){var r=document.createRange();r.selectNode(document.getElementById(id));getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand('copy')}}
+function aba(o){['win','lin'].forEach(function(k){document.getElementById('os-'+k).classList.toggle('on',k==o);document.getElementById('t-'+k).setAttribute('aria-selected',k==o)})}
+document.getElementById('c-win').textContent='irm '+H+'/win.ps1 | iex';
+document.getElementById('c-lin').textContent='curl -fsSL '+H+'/linux.sh | bash';
+fetch('/server.txt').then(function(r){return r.text()}).then(function(s){s=s.trim();document.getElementById('addr').textContent=s;document.querySelectorAll('.a').forEach(function(e){e.textContent=s})}).catch(function(){document.getElementById('addr').textContent='(indisponível)'});
+
+var PUB={'udmx.wad':'UDMX','udm1.wad':'UDM1','vodm.wad':'Vignettes of Deathmatch','finalfrg.wad':'The Final Frag','aeondm.pk3':'AeonDM'};
+function nm(f){return f.replace(/\.(wad|pk3)$/,'').toUpperCase()}
+function sala(){fetch('/cgi-bin/sala',{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
+ var base=d.iwad,pk=d.pwad,tab='';
+ function lin(a,b){tab+='<tr><td>'+a+'</td><td>'+b+'</td></tr>'}
+ lin('Status',d.ligado?'<b style="color:var(--hud)">no ar</b>':'<b style="color:var(--blood)">fora do ar</b>');
+ lin('Jogo',nm(base||'?')+(pk?' + '+(PUB[pk]||nm(pk)):''));
+ lin('Mapa',(d.mapa||'?')+(d.nome_mapa?' — '+d.nome_mapa:''));
+ lin('Monstros',d.monstros?'ligados':'desligados');
+ lin('Saída do mapa',d.exit?'liberada':'bloqueada (quem tentar sair morre)');
+ lin('Limites',(d.maxplayers||'?')+' jogadores · '+(d.timelimit||'?')+' min · '+(d.fraglimit||'?')+' frags');
+ document.getElementById('sala-tab').innerHTML=tab;
+ document.getElementById('h-iwad').textContent=pk?nm(pk):nm(base||'?');
+ document.getElementById('h-mapa').textContent=d.mapa||'?';
+ var av='';
+ if(base&&base!=='freedoom2.wad'&&base!=='freedoom1.wad'){
+  av='<p><b>Para entrar nesta sala você precisa do <code>'+base+'</code></b> (WAD comercial, a versão idêntica à do servidor).';
+  if(pk&&PUB[pk])av+=' E do <a href="/wad/'+pk+'">'+pk+'</a> (<a href="/wad/">como instalar</a>).';
+  else if(pk)av+=' E do <code>'+pk+'</code> (comercial, não distribuído aqui).';
+  av+=' Sem eles dá erro de arquivo faltando/hash.</p>';
+ }else if(pk&&PUB[pk]){av='<p>Baixe o <a href="/wad/'+pk+'">'+pk+'</a> (<a href="/wad/">como instalar</a>).</p>';}
+ else{av='<p><small>Esta sala usa o Freedoom: o tutorial abaixo já instala tudo.</small></p>';}
+ document.getElementById('sala-aviso').innerHTML=av;
+}).catch(function(){document.getElementById('sala-tab').innerHTML='<tr><td>Não foi possível ler o estado da sala.</td></tr>'})}
+sala();setInterval(sala,10000);
+if(/linux/i.test(navigator.userAgent))aba('lin');
+</script>
+</body>
+</html>

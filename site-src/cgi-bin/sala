@@ -1,0 +1,21 @@
+#!/bin/sh
+# Estado atual da sala em JSON (le o processo do servidor, o cfg e o log). Chamado pelo site.
+echo "Content-Type: application/json"; echo "Cache-Control: no-store"; echo
+cmd=""
+for p in /proc/[0-9]*; do
+  c=$(tr '\0' ' ' < "$p/cmdline" 2>/dev/null)
+  case "$c" in */zandronum-server\ *) cmd="$c"; break;; esac
+done
+pick() { echo "$cmd" | sed -n "s|.*$1 /data/\([^ ]*\).*|\1|p"; }
+iwad=$(pick -iwad); pwad=$(pick -file)
+cfg=/configs/sala1.cfg
+log=$(ls -t /logs/sala.log__*.log 2>/dev/null | head -1)
+val() { grep -E "^$1[[:space:]]" "$cfg" 2>/dev/null | tail -1 | sed 's/^[^ ]* *//; s/"//g'; }
+linha=$(grep -E '^(\[[0-9:]+\] )?\*\*\* ' "$log" 2>/dev/null | tail -1 | sed 's/^\[[0-9:]*\] //; s/^\*\*\* //; s/ \*\*\*$//; s/"//g; s/\\//g')
+mapa=${linha%%:*}; nome=${linha#*: }; [ "$linha" = "$mapa" ] && nome=""
+[ -z "$mapa" ] && mapa=$(echo "$cmd" | sed -n 's/.*+map \([^ ]*\).*/\1/p')
+mon=$(val sv_nomonsters); noexit=$(val sv_noexit)
+printf '{"ligado":%s,"iwad":"%s","pwad":"%s","mapa":"%s","nome_mapa":"%s","monstros":%s,"exit":%s,"hostname":"%s","maxplayers":"%s","timelimit":"%s","fraglimit":"%s"}\n' \
+  "$([ -n "$cmd" ] && echo true || echo false)" "$iwad" "$pwad" "$mapa" "$nome" \
+  "$([ "$mon" = 1 ] && echo false || echo true)" "$([ "$noexit" = 1 ] && echo false || echo true)" \
+  "$(val sv_hostname)" "$(val sv_maxplayers)" "$(val timelimit)" "$(val fraglimit)"

@@ -1,23 +1,25 @@
-# 🎮 Como jogar Doom online no servidor do o dono do servidor (copiar e colar)
+**English** · [Português](doom-como-entrar.pt-BR.md)
 
-_Criado em 10/10/2026. Links conferidos em 10/10/2026. **Windows testado e funcionando** (PowerShell sem admin, 10/10/2026). O script de Linux teve download/extração testados (Debian 13); o jogo em si no Linux não foi testado._
+# 🎮 How to play Doom online on the server owner's server (copy and paste)
 
-Você só **copia e cola** o bloco do seu sistema. Ele baixa o jogo e entra no servidor. Na segunda vez que colar, ele só abre o jogo (não baixa de novo).
+_Created 2026-10-10. Links checked 2026-10-10. **Windows tested and working** (PowerShell without admin, 2026-10-10). The Linux script had its download/extraction tested (Debian 13); the game itself on Linux was not tested._
 
-## 📍 Dados do servidor
+You just **copy and paste** the block for your system. It downloads the game and joins the server. The second time you paste it, it only opens the game (it does not download again).
+
+## 📍 Server details
 ```
-Endereço:  <endereço-público>
-IP alternativo:  <ip-público>:<porta>
-Sala:      Frendner - Sala 1 (teste)       Jogadores: até 16      Senha: nenhuma
+Address:  <endereço-público>
+Alternative IP:  <ip-público>:<porta>
+Room:      Frendner - Sala 1 (test)       Players: up to 16      Password: none
 ```
-Não precisa abrir portas nem mexer no roteador.
+You do not need to open ports or touch the router.
 
 ---
 
-# 🪟 WINDOWS — copiar e colar
+# 🪟 WINDOWS — copy and paste
 
-1. Aperte a tecla **Windows**, digite **PowerShell** e abra (não precisa ser administrador).
-2. **Copie o bloco inteiro abaixo**, cole na janela azul (clique com o botão direito para colar) e aperte **Enter**.
+1. Press the **Windows** key, type **PowerShell** and open it (it does not need to be administrator).
+2. **Copy the whole block below**, paste it into the blue window (right-click to paste) and press **Enter**.
 
 ```powershell
 $ErrorActionPreference = 'Stop'
@@ -47,31 +49,31 @@ Write-Host ">> Entrando em $Server ..."
 Start-Process "$Dir\zandronum.exe" -ArgumentList '-iwad','freedoom2.wad','+connect',$Server -WorkingDirectory $Dir
 ```
 
-O jogo fica em `C:\Users\<seu usuário>\Doom`. **Outra pasta?** Baixe https://<seu-domínio>/win.ps1, edite a linha `$Dir = …` e rode `powershell -ExecutionPolicy Bypass -File "$HOME\Downloads\win.ps1"`. Para jogar de novo depois, cole o mesmo bloco.
+The game is installed in `C:\Users\<your user>\Doom`. **Different folder?** Download https://<seu-domínio>/win.ps1, edit the `$Dir = …` line and run `powershell -ExecutionPolicy Bypass -File "$HOME\Downloads\win.ps1"`. To play again later, paste the same block.
 
-**Se o PowerShell reclamar de "execução de scripts desabilitada":** isso não acontece com colar direto no terminal. Se acontecer, feche e abra o PowerShell de novo.
+**If PowerShell complains that "script execution is disabled":** this does not happen when pasting directly into the terminal. If it does, close PowerShell and open it again.
 
-**Manual (sem script):**
-1. Baixe o Zandronum 3.2.1: [instalador](https://zandronum.com/downloads/zandronum3.2.1-win64-installer.exe) ou [zip](https://zandronum.com/downloads/zandronum3.2.1-win64-base.zip) (zip: extraia numa pasta).
-2. Baixe o [Freedoom 0.13.0](https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip), extraia e copie o `freedoom2.wad` para a pasta do Zandronum (onde está o `zandronum.exe`).
-3. Abra o Zandronum (escolha `freedoom2.wad` se perguntar), aperte `'` ou `~` e digite `connect <endereço-público>`.
+**Manual (no script):**
+1. Download Zandronum 3.2.1: [installer](https://zandronum.com/downloads/zandronum3.2.1-win64-installer.exe) or [zip](https://zandronum.com/downloads/zandronum3.2.1-win64-base.zip) (zip: extract into a folder).
+2. Download [Freedoom 0.13.0](https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip), extract it and copy `freedoom2.wad` into the Zandronum folder (where `zandronum.exe` is).
+3. Open Zandronum (choose `freedoom2.wad` if asked), press `'` or `~` and type `connect <endereço-público>`.
 
 ---
 
-# 🐧 LINUX — copiar e colar
+# 🐧 LINUX — copy and paste
 
-### Passo 0 — bibliotecas (importante)
-O Zandronum para Linux precisa de duas bibliotecas antigas: **libSDL-1.2** e **libjpeg.so.8**. O script avisa se faltarem.
+### Step 0 — libraries (important)
+Zandronum for Linux needs two old libraries: **libSDL-1.2** and **libjpeg.so.8**. The script warns you if they are missing.
 
-| Sua distro | Comando |
+| Your distro | Command |
 |---|---|
 | **Ubuntu / Linux Mint** | `sudo apt install libsdl1.2debian libjpeg-turbo8` |
-| **Debian 13** | `sudo apt install libsdl1.2debian` — a `libjpeg.so.8` **não existe** no Debian 13; use o Ubuntu/Mint, o Windows, ou veja "Debian" mais abaixo |
-| **Arch / Manjaro** | pacote `zandronum` no AUR (traz tudo) em vez do script |
-| **Fedora** | procure `SDL` 1.2 (`sdl12-compat`) e `libjpeg-turbo`; se faltar a `.so.8`, o script mostra |
+| **Debian 13** | `sudo apt install libsdl1.2debian` — `libjpeg.so.8` **does not exist** on Debian 13; use Ubuntu/Mint, Windows, or see "Debian" below |
+| **Arch / Manjaro** | `zandronum` package in the AUR (brings everything) instead of the script |
+| **Fedora** | look for `SDL` 1.2 (`sdl12-compat`) and `libjpeg-turbo`; if `.so.8` is missing, the script will show it |
 
-### Passo 1 — copiar e colar
-Abra o **Terminal**, copie o bloco inteiro, cole e aperte **Enter**:
+### Step 1 — copy and paste
+Open the **Terminal**, copy the whole block, paste it and press **Enter**:
 
 ```bash
 cat > ~/doom.sh <<'FIM'
@@ -123,38 +125,38 @@ FIM
 bash ~/doom.sh
 ```
 
-Para jogar de novo: `bash ~/doom.sh`. **Outra pasta?** Baixe https://<seu-domínio>/linux.sh, edite a linha `DIR=…` e rode `bash ~/Downloads/linux.sh` (ou `DOOM_DIR=/outra/pasta bash linux.sh`). O jogo fica em `~/Jogos/doom`.
+To play again: `bash ~/doom.sh`. **Different folder?** Download https://<seu-domínio>/linux.sh, edit the `DIR=…` line and run `bash ~/Downloads/linux.sh` (or `DOOM_DIR=/other/folder bash linux.sh`). The game is installed in `~/Jogos/doom`.
 
-**Manual (sem script):**
-1. Baixe o [Zandronum 3.2.1 Linux](https://zandronum.com/downloads/zandronum3.2.1-linux-x86_64.tar.bz2) e extraia: `mkdir -p ~/Jogos/doom && tar -xjf zandronum3.2.1-linux-x86_64.tar.bz2 -C ~/Jogos/doom`
-2. Baixe o [Freedoom 0.13.0](https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip), extraia e copie o `freedoom2.wad` para `~/Jogos/doom`.
-3. Rode: `cd ~/Jogos/doom && LD_LIBRARY_PATH=. ./zandronum -iwad freedoom2.wad +connect <endereço-público>`
+**Manual (no script):**
+1. Download [Zandronum 3.2.1 Linux](https://zandronum.com/downloads/zandronum3.2.1-linux-x86_64.tar.bz2) and extract it: `mkdir -p ~/Jogos/doom && tar -xjf zandronum3.2.1-linux-x86_64.tar.bz2 -C ~/Jogos/doom`
+2. Download [Freedoom 0.13.0](https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip), extract it and copy `freedoom2.wad` to `~/Jogos/doom`.
+3. Run: `cd ~/Jogos/doom && LD_LIBRARY_PATH=. ./zandronum -iwad freedoom2.wad +connect <endereço-público>`
 
 ### Debian
-Se o script falhar com `libjpeg.so.8`, o jeito mais simples é rodar o Zandronum num container Ubuntu (por exemplo com `distrobox`) ou usar uma máquina com Ubuntu/Mint/Windows. Não consegui validar uma alternativa nativa no Debian 13.
+If the script fails with `libjpeg.so.8`, the simplest way is to run Zandronum in an Ubuntu container (for example with `distrobox`) or use a machine running Ubuntu/Mint/Windows. I could not validate a native alternative on Debian 13.
 
 ---
 
-## 🕹️ Jogando
-| Ação | Como |
+## 🕹️ Playing
+| Action | How |
 |---|---|
-| Abrir o console (barra de texto) | tecla `'` ou `~` |
-| Entrar na mão (se o script não entrou) | no console: `connect <endereço-público>` |
-| Sair do servidor | no console: `disconnect` |
-| Conversar | tecla `T` |
-| Mudar controles (mouse/WASD) | menu **Options → Customize Controls** |
+| Open the console (text bar) | `'` or `~` key |
+| Join manually (if the script did not connect) | in the console: `connect <endereço-público>` |
+| Leave the server | in the console: `disconnect` |
+| Chat | `T` key |
+| Change controls (mouse/WASD) | menu **Options → Customize Controls** |
 
-## 🆘 Deu problema?
-| O que apareceu | O que fazer |
+## 🆘 Having trouble?
+| What you see | What to do |
 |---|---|
-| Fica "Connecting..." e dá erro | Tente o IP no console: `connect <ip-público>:<porta>`. Se não for, avise o o dono do servidor (servidor pode estar desligado) |
-| "Version mismatch" | Você não está com a **3.2.1**. Apague a pasta do jogo e cole o bloco de novo |
-| "Couldn't find IWAD" | Falta o `freedoom2.wad` na pasta do jogo. Apague a pasta e cole o bloco de novo |
-| Erro de biblioteca (Linux) | Veja o Passo 0 |
-| Travando / pulando | Use cabo de rede ou chegue mais perto do Wi-Fi |
-| Não acho o console | Teclado ABNT: tente `'` e `~`, ou **Customize Controls → Console** |
+| Stays on "Connecting..." and then errors | Try the IP in the console: `connect <ip-público>:<porta>`. If that fails, let the server owner know (the server may be down) |
+| "Version mismatch" | You are not on **3.2.1**. Delete the game folder and paste the block again |
+| "Couldn't find IWAD" | `freedoom2.wad` is missing from the game folder. Delete the folder and paste the block again |
+| Library error (Linux) | See Step 0 |
+| Lagging / skipping | Use a network cable or move closer to the Wi-Fi |
+| Cannot find the console | ABNT keyboard: try `'` and `~`, or **Customize Controls → Console** |
 
-> Use a versão **3.2.1** (estável); as "testing 3.3" não entram neste servidor. Opcional: [Doomseeker](https://doomseeker.drdteam.org) (lista de servidores).
+> Use version **3.2.1** (stable); the "testing 3.3" builds are not accepted on this server. Optional: [Doomseeker](https://doomseeker.drdteam.org) (server browser).
 
 ---
-_Para o dono: detalhes técnicos em `doom-zandronum.md`. Se mudar o IWAD da sala ou o endereço do playit, atualizar `SERVER`/`freedoom2` nos dois blocos._
+_For the owner: technical details in `doom-zandronum.md`. If you change the room's IWAD or the playit address, update `SERVER`/`freedoom2` in both blocks._

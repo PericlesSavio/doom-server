@@ -13,7 +13,7 @@ Servidor de deathmatch do Doom em Docker, com relay UDP (playit.gg), site/tutori
 | `site-src/` | Modelo do site (tutorial): `index.html`, `win.ps1`, `linux.sh`, `server.txt`, `cgi-bin/sala` (estado da sala em JSON), com marcadores `@@...@@` |
 | `render.sh` | Aplica o `.env`: gera `site/` (fora do git) a partir de `site-src/` e grava `sv_hostname`/`sv_motd` no `sala1.cfg` real |
 | `configs/sala1.cfg` | Cópia da config da sala (a real fica em `$DOOM_DADOS/configs/`) |
-| `docs/` | Documentação detalhada e guia para jogadores |
+| `docs/` | Documentação completa e guia para jogadores, em inglês (`*.md`) e português (`*.pt-BR.md`) |
 | `.env` | `SECRET_KEY` do playit, `DOOM_DADOS` (pasta de dados) e dados públicos do site: `DOOM_SITE_HOST`, `DOOM_PUBLIC_ADDR`, `DOOM_PUBLIC_IP_ADDR`, `DOOM_OWNER`, `DOOM_SALA_NOME`, `DOOM_SALA_MOTD` (nome e mensagem de entrada da sala) (**fora do git**; modelo em `.env.example`) |
 
 ## Portas

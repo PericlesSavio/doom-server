@@ -13,7 +13,7 @@ A Doom deathmatch server in Docker, with a UDP relay (playit.gg), a tutorial web
 | `site-src/` | Website template (tutorial): `index.html`, `win.ps1`, `linux.sh`, `server.txt`, `cgi-bin/sala` (room state as JSON), with `@@...@@` placeholders |
 | `render.sh` | Applies `.env`: builds `site/` (not in git) from `site-src/` and writes `sv_hostname`/`sv_motd` into the real `sala1.cfg` |
 | `configs/sala1.cfg` | Copy of the room config (the real one lives in `$DOOM_DADOS/configs/`; template with `@@SALA_NOME@@`/`@@SALA_MOTD@@`, filled by `render.sh`) |
-| `docs/` | Detailed documentation and a player guide (Portuguese) |
+| `docs/` | Full documentation and a player guide, in English (`*.md`) and Portuguese (`*.pt-BR.md`) |
 | `.env` | playit `SECRET_KEY`, `DOOM_DADOS` (data folder), website values `DOOM_SITE_HOST`, `DOOM_PUBLIC_ADDR`, `DOOM_PUBLIC_IP_ADDR`, `DOOM_OWNER`, and the room name/welcome message `DOOM_SALA_NOME`, `DOOM_SALA_MOTD` (**not in git**; template in `.env.example`) |
 
 ## Ports

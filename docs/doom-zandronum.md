@@ -2,7 +2,7 @@
 
 # Doom Server (Zandronum) — Docker + playit.gg relay
 
-_Created 2026-10-10, revised 2026-10-11. Repository: `este repositório` (this repository; copy of this doc in `docs/`). Real state: `docker ps`, `~/Servidor/36xxx/doom/docker-compose.yml`. This doc is history/explanation._
+_Created 2026-10-10, revised 2026-10-11. Repository: this repository (a copy of this doc lives in `docs/`). Real state: `docker ps`, `~/Servidor/36xxx/doom/docker-compose.yml`. This doc is history/explanation._
 
 ## Summary
 Multiplayer Doom (Zandronum) server in a container, for rooms of up to 16 players with community WADs (ZDaemon style from the 2000s). The game uses **UDP**, which the Cloudflare Tunnel (`<tunel>`) does not carry; external access goes through an **outbound UDP relay (playit.gg)**, with no Tailscale and no router changes.
